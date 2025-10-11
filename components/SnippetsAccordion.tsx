@@ -9,7 +9,6 @@ type Props = {
     theme?: Theme;
 };
 
-/** Helpers */
 function downloadText(filename: string, text: string) {
     const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
     const url = URL.createObjectURL(blob);
@@ -21,7 +20,6 @@ function downloadText(filename: string, text: string) {
 export default function SnippetsAccordion({ cssVars, twCfg, scss, theme }: Props) {
     const [open, setOpen] = useState(false);
 
-    // brand colors (fallback a sky)
     const brand = theme?.scale ?? {};
     const c500 = brand["500"] ?? "#7DD3FC";
     const c600 = brand["600"] ?? "#38BDF8";
@@ -55,7 +53,6 @@ export default function SnippetsAccordion({ cssVars, twCfg, scss, theme }: Props
 
             {open && (
                 <div className="px-5 pb-5">
-                    {/* Tabs */}
                     <div className="flex items-center gap-2">
                         {tabs.map(t => {
                             const isActive = active === t.id;
@@ -77,7 +74,6 @@ export default function SnippetsAccordion({ cssVars, twCfg, scss, theme }: Props
                         })}
                     </div>
 
-                    {/* Panels */}
                     <div className="mt-4">
                         {tabs.map(t => (
                             <div key={t.id} hidden={active !== t.id}>
@@ -103,13 +99,11 @@ function CodePanel(
 ) {
     const { c500, c600, c700, c200 } = theme;
     const [copied, setCopied] = useState(false);
-    const [wrap, setWrap] = useState(true);     // Wrap ON por defecto
-    const [minify, setMinify] = useState(false); // Minify OFF por defecto
+    const [wrap, setWrap] = useState(true);
+    const [minify, setMinify] = useState(false);
 
-    // si minify -> una sola línea; si no -> respeta saltos
     const displayCode = useMemo(() => {
         if (!minify) return code.replace(/\r\n/g, "\n");
-        // minificar suave: colapsar espacios y quitar saltos
         return code.replace(/\s*\n\s*/g, " ").replace(/\s{2,}/g, " ").trim();
     }, [code, minify]);
 
@@ -121,7 +115,6 @@ function CodePanel(
         setTimeout(() => setCopied(false), 1200);
     };
 
-    // cuando wrap está ON, no queremos scroll horizontal en el contenedor de líneas
     const containerOverflow = wrap ? "overflow-hidden" : "overflow-x-auto";
 
     return (
@@ -129,7 +122,6 @@ function CodePanel(
             className="rounded-xl border"
             style={{ borderColor: `${c700}33`, background: "linear-gradient(180deg, rgba(12,12,13,0.9), rgba(12,12,13,0.7))" }}
         >
-            {/* Header */}
             <div
                 className="flex flex-wrap items-center justify-between gap-3 px-4 py-3 border-b"
                 style={{ borderColor: `${c700}33`, background: `linear-gradient(90deg, ${c700}22, transparent)` }}
@@ -183,30 +175,25 @@ function CodePanel(
                 </div>
             </div>
 
-            {/* Code with aligned numbers */}
             <div className={containerOverflow}>
                 <div className="font-mono text-[14px] leading-7">
                     {lines.map((ln, i) => (
                         <div key={i} className="flex">
-                            {/* gutter */}
                             <div
                                 className="select-none w-14 shrink-0 text-right pr-3 border-r"
                                 style={{ color: "#71717a", borderColor: "rgba(39,39,42,1)", background: "rgba(12,12,13,0.5)" }}
                             >
                                 <span className="inline-block w-full tabular-nums">{i + 1}</span>
                             </div>
-                            {/* code cell */}
                             <div
                                 className={`flex-1 py-0 px-4 text-zinc-200 ${wrap ? "whitespace-pre-wrap" : "whitespace-pre"
                                     }`}
-                                // CLAVES para que wrap funcione dentro de flex:
                                 style={{
-                                    minWidth: 0,                 // <-- permite que el contenido se reduzca y envuelva
-                                    overflowWrap: "anywhere",    // <-- envuelve incluso sin espacios
-                                    wordBreak: "break-word",     // refuerzo
+                                    minWidth: 0,
+                                    overflowWrap: "anywhere",
+                                    wordBreak: "break-word",
                                 }}
                             >
-                                {/* si la línea está vacía, mantenemos altura */}
                                 {ln.length ? ln : "\u00A0"}
                             </div>
                         </div>

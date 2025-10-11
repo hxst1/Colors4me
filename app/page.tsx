@@ -7,6 +7,9 @@ import Swatch from "@/components/Swatch";
 import Preview from "@/components/Preview";
 import SnippetsAccordion from "@/components/SnippetsAccordion";
 
+const WHITE = { r: 255, g: 255, b: 255 };
+const BLACK = { r: 0, g: 0, b: 0 };
+
 export default function Page() {
   const [base, setBase] = useState<string>("#826EE7");
   const [token, setToken] = useState<string>("brand");
@@ -14,11 +17,10 @@ export default function Page() {
   const baseHex = useMemo(() => parseHex(base) ?? "#826EE7", [base]);
   const scale = useMemo(() => buildScale(baseHex), [baseHex]);
 
-  const white = { r: 255, g: 255, b: 255 };
-  const black = { r: 0, g: 0, b: 0 };
   const c500 = hexToRgb(scale["500"]);
-  const crWhite = useMemo(() => contrastRatio(c500, white), [c500]);
-  const crBlack = useMemo(() => contrastRatio(c500, black), [c500]);
+
+  const crWhite = useMemo(() => contrastRatio(c500, WHITE), [c500]);
+  const crBlack = useMemo(() => contrastRatio(c500, BLACK), [c500]);
 
   const cssVars = useMemo(() => toCssVars(token, scale), [token, scale]);
   const twCfg = useMemo(() => toTailwindConfig(token, scale), [token, scale]);
@@ -39,7 +41,7 @@ export default function Page() {
         <Controls base={base} setBase={setBase} token={token} setToken={setToken} baseHex={baseHex} />
 
         <section className="mt-6">
-          <Preview token={token} color={scale["500"]} scale={scale} />
+          <Preview color={scale["500"]} scale={scale} />
         </section>
 
         <section className="grid md:grid-cols-2 gap-6 mt-6">

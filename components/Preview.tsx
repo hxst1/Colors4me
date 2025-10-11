@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { bestOnColor } from "@/lib/color";
-export default function Preview({ token, color, scale }: { token: string; color: string; scale: Record<string, string> }) {
+export default function Preview({ color, scale }: { color: string; scale: Record<string, string> }) {
     return (
         <div>
             <h2 className="text-sm font-semibold mb-3">Preview</h2>

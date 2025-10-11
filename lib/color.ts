@@ -12,7 +12,8 @@ export function rgbToHex(r: number, g: number, b: number) {
 export function rgbToHsl(r: number, g: number, b: number) {
     r /= 255; g /= 255; b /= 255;
     const max = Math.max(r, g, b), min = Math.min(r, g, b);
-    let h = 0, s = 0, l = (max + min) / 2;
+    let h = 0, s = 0;
+    const l = (max + min) / 2;
     const d = max - min;
     if (d !== 0) {
         s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
@@ -53,19 +54,13 @@ export function contrastRatio(c1: { r: number, g: number, b: number }, c2: { r: 
 }
 export function parseHex(hex: string) { const ok = /^#?[0-9a-fA-F]{6}$/.test(hex); if (!ok) return null; const h = hex.startsWith('#') ? hex : '#' + hex; return h.toUpperCase(); }
 
-/**
- * Nueva buildScale: 50–400 más claros que 500, 600–900 más oscuros que 500.
- * Se calcula dinámicamente en torno a la luminosidad l del color base.
- */
 export function buildScale(baseHex: string) {
     const base = hexToRgb(baseHex);
     const { h, s, l } = rgbToHsl(base.r, base.g, base.b);
 
-    // mover hacia blanco/negro relativo al l del color base
     const lighten = (t: number) => clamp(l + (1 - l) * t, 0, 1);
     const darken = (t: number) => clamp(l * (1 - t), 0, 1);
 
-    // valores ajustados (look tipo Tailwind pero estrictamente monótonos)
     const L: Record<number, number> = {
         50: lighten(0.90),
         100: lighten(0.75),
@@ -106,7 +101,7 @@ export function toCssVars(name: string, scale: Record<string, string>) {
     Object.entries(scale).forEach(([k, v]) => { lines.push(`  --${name}-${k}: ${v};`); });
     lines.push(`  --on-${name}: ${bestOnColor(scale["500"])};`);
     lines.push("}");
-    return lines.join("\n"); // <- antes "\\n"
+    return lines.join("\n");
 }
 
 export function toTailwindConfig(name: string, scale: Record<string, string>) {
@@ -135,7 +130,7 @@ export default {
     lines.push(`:root {`);
     Object.entries(scale).forEach(([k, v]) => { lines.push(`  --${name}-${k}: ${hexToRgbTuple(v)};`); });
     lines.push(`}`);
-    return lines.join("\n"); // <- antes "\\n"
+    return lines.join("\n");
 }
 
 export function toScss(name: string, scale: Record<string, string>) {
