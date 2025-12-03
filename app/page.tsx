@@ -6,6 +6,7 @@ import AccessibilityPanel from "@/components/AccessibilityPanel";
 import Swatch from "@/components/Swatch";
 import Preview from "@/components/Preview";
 import SnippetsAccordion from "@/components/SnippetsAccordion";
+import ColorBlindnessSimulator from "@/components/ColorBlindness";
 
 const WHITE = { r: 255, g: 255, b: 255 };
 const BLACK = { r: 0, g: 0, b: 0 };
@@ -51,8 +52,8 @@ export default function Page() {
             <button
               onClick={() => setTheme(t => t === 'dark' ? 'light' : 'dark')}
               className={`relative inline-flex items-center gap-2 px-3 py-2 rounded-lg border transition-all ${isDark
-                  ? 'bg-zinc-900/60 border-zinc-800 hover:bg-zinc-900'
-                  : 'bg-white border-zinc-300 hover:bg-zinc-100'
+                ? 'bg-zinc-900/60 border-zinc-800 hover:bg-zinc-900'
+                : 'bg-white border-zinc-300 hover:bg-zinc-100'
                 }`}
               title={`Switch to ${isDark ? 'light' : 'dark'} theme`}
             >
@@ -88,8 +89,8 @@ export default function Page() {
 
         <section className="grid md:grid-cols-2 gap-6 mt-6">
           <div className={`border rounded-2xl p-4 ${isDark
-              ? 'bg-zinc-900/60 border-zinc-800'
-              : 'bg-white border-zinc-200'
+            ? 'bg-zinc-900/60 border-zinc-800'
+            : 'bg-white border-zinc-200'
             }`}>
             <h2 className="text-sm font-semibold mb-3">Generated scale</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -100,6 +101,10 @@ export default function Page() {
           </div>
 
           <AccessibilityPanel token={token} scale={scale} crWhite={crWhite} crBlack={crBlack} theme={theme} />
+        </section>
+
+        <section className="mt-8">
+          <ColorBlindnessSimulator scale={scale} token={token} theme={theme} />
         </section>
 
         <section className="mt-8">

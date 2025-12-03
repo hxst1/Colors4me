@@ -311,7 +311,7 @@ export default {
 }
 
 export function toScss(name: string, scale: Record<string, string>) {
-    const lines = [`$${name}-palette: (
+    const lines = [`${name}-palette: (
   50: ${scale["50"]},
   100: ${scale["100"]},
   200: ${scale["200"]},
@@ -324,7 +324,7 @@ export function toScss(name: string, scale: Record<string, string>) {
   900: ${scale["900"]}
 );
 
-@function ${name}-color($step) { @return map-get($${name}-palette, $step); }
+@function ${name}-color($step) { @return map-get(${name}-palette, $step); }
 
 @mixin btn-${name}($step: 500) {
   $c: ${name}-color($step);
@@ -335,4 +335,55 @@ export function toScss(name: string, scale: Record<string, string>) {
 }
 `];
     return lines.join("\n");
+}
+
+// Color Blindness Simulation
+export type ColorBlindnessType = 'normal' | 'protanopia' | 'deuteranopia' | 'tritanopia' | 'achromatopsia';
+
+export function simulateColorBlindness(hex: string, type: ColorBlindnessType): string {
+    if (type === 'normal') return hex;
+
+    const { r, g, b } = hexToRgb(hex);
+
+    // Conversion matrices for different types of color blindness
+    let nr = r, ng = g, nb = b;
+
+    switch (type) {
+        case 'protanopia': // Red-blind
+            nr = 0.567 * r + 0.433 * g + 0.000 * b;
+            ng = 0.558 * r + 0.442 * g + 0.000 * b;
+            nb = 0.000 * r + 0.242 * g + 0.758 * b;
+            break;
+
+        case 'deuteranopia': // Green-blind
+            nr = 0.625 * r + 0.375 * g + 0.000 * b;
+            ng = 0.700 * r + 0.300 * g + 0.000 * b;
+            nb = 0.000 * r + 0.300 * g + 0.700 * b;
+            break;
+
+        case 'tritanopia': // Blue-blind
+            nr = 0.950 * r + 0.050 * g + 0.000 * b;
+            ng = 0.000 * r + 0.433 * g + 0.567 * b;
+            nb = 0.000 * r + 0.475 * g + 0.525 * b;
+            break;
+
+        case 'achromatopsia': // Complete color blindness (monochrome)
+            const gray = 0.299 * r + 0.587 * g + 0.114 * b;
+            nr = ng = nb = gray;
+            break;
+    }
+
+    return rgbToHex(
+        Math.round(Math.max(0, Math.min(255, nr))),
+        Math.round(Math.max(0, Math.min(255, ng))),
+        Math.round(Math.max(0, Math.min(255, nb)))
+    );
+}
+
+export function simulateScaleColorBlindness(scale: Record<string, string>, type: ColorBlindnessType): Record<string, string> {
+    const result: Record<string, string> = {};
+    Object.entries(scale).forEach(([k, v]) => {
+        result[k] = simulateColorBlindness(v, type);
+    });
+    return result;
 }
