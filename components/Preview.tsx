@@ -133,6 +133,7 @@ export default function Preview({ scale }: Props) {
                                 style={{ background: isOn ? scale["500"] : 'var(--bg-tertiary)' }}
                                 role="switch"
                                 aria-checked={isOn}
+                                aria-label={`Dark mode toggle, currently ${isOn ? 'on' : 'off'}`}
                             >
                                 <span
                                     className="absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow transition-transform duration-200"

@@ -14,8 +14,8 @@
   /* Foreground/Text colors - WCAG AA compliant */
   --text-primary: #fafafa;
   --text-secondary: #a1a1aa;
-  --text-tertiary: #71717a;
-  --text-muted: #52525b;
+  --text-tertiary: #8b8b94;
+  --text-muted: #71717a;
   
   /* Border colors */
   --border-default: #3f3f46;
@@ -53,8 +53,8 @@
   /* Foreground/Text colors - WCAG AA compliant */
   --text-primary: #18181b;
   --text-secondary: #52525b;
-  --text-tertiary: #71717a;
-  --text-muted: #a1a1aa;
+  --text-tertiary: #5c5c66;
+  --text-muted: #71717a;
   
   /* Border colors */
   --border-default: #d4d4d8;
@@ -80,8 +80,9 @@
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.15);
-  
-  /* Tailwind theme tokens */
+}
+
+@theme inline {
   --color-bg-primary: var(--bg-primary);
   --color-bg-secondary: var(--bg-secondary);
   --color-bg-tertiary: var(--bg-tertiary);

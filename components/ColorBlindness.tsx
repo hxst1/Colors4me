@@ -84,16 +84,17 @@ export default function ColorBlindnessSimulator({ scale, token }: Props) {
             </div>
 
             {/* Color Preview Grid */}
-            <div className="grid grid-cols-5 sm:grid-cols-10 gap-2 mb-4" role="list" aria-label="Color scale preview">
+            <div className="grid grid-cols-5 sm:grid-cols-10 gap-2 mb-4" aria-label="Color scale preview">
                 {([50, 100, 200, 300, 400, 500, 600, 700, 800, 900] as const).map((step) => (
-                    <div key={step} className="space-y-1" role="listitem">
+                    <div key={step} className="space-y-1">
                         <div
                             className="aspect-square rounded-lg border border-[var(--border-subtle)] shadow-sm transition-transform hover:scale-110 cursor-pointer"
                             style={{ backgroundColor: simulatedScale[String(step)] }}
                             title={`${token}-${step}\nOriginal: ${scale[String(step)]}\nSimulated: ${simulatedScale[String(step)]}`}
                             aria-label={`${token}-${step}: ${simulatedScale[String(step)]}`}
+                            role="img"
                         />
-                        <div className="text-[9px] text-center font-mono text-[var(--text-tertiary)]">
+                        <div className="text-[9px] text-center font-mono text-[var(--text-muted)]">
                             {step}
                         </div>
                     </div>
