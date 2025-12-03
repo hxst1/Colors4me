@@ -10,8 +10,7 @@ type Props = {
     theme?: 'dark' | 'light';
 };
 
-export default function AccessibilityPanel({ token, scale, crWhite, theme = 'dark' }: Props) {
-    const isDark = theme === 'dark';
+export default function AccessibilityPanel({ token, scale, crWhite }: Props) {
     const white = { r: 255, g: 255, b: 255 };
     const black = { r: 0, g: 0, b: 0 };
     const c500 = hexToRgb(scale["500"]);
@@ -25,40 +24,32 @@ export default function AccessibilityPanel({ token, scale, crWhite, theme = 'dar
     const crOnBlack = contrastRatio(c500, black);
 
     return (
-        <div className={`border rounded-2xl p-4 ${isDark
-            ? 'bg-zinc-900/60 border-zinc-800'
-            : 'bg-white border-zinc-200'
-            }`}>
-            <h2 className="text-sm font-semibold mb-3">
+        <div className="card p-4" role="region" aria-labelledby="accessibility-heading">
+            <h2 id="accessibility-heading" className="text-sm font-semibold mb-3 text-[var(--text-primary)]">
                 Accessibility (contrast vs {token}-500)
             </h2>
             <div className="space-y-3">
                 {/* On brand color */}
                 <div
-                    className={`flex items-center justify-between p-3 rounded-lg border ${isDark ? 'border-zinc-800' : 'border-zinc-300'
-                        }`}
+                    className="flex items-center justify-between p-3 rounded-lg border border-[var(--border-default)]"
                     style={{ background: scale["500"], color: bestOnColor(scale["500"]) }}
                 >
-                    <div className="text-sm">
+                    <div className="text-sm font-medium">
                         On <strong>{token}-500</strong>
                     </div>
                     <div className="flex items-center gap-2">
-                        <span className="text-xs">White: {crWhite.toFixed(2)}:1</span>
+                        <span className="text-xs font-mono">{crWhite.toFixed(2)}:1</span>
                         <span
-                            className={`px-2 py-0.5 rounded-full text-xs font-medium ${getAAStatus(crWhite, 'AA')
-                                ? 'bg-green-600 text-white'
-                                : 'bg-red-600 text-white'
-                                }`}
+                            className={`badge ${getAAStatus(crWhite, 'AA') ? 'badge-success' : 'badge-error'}`}
+                            role="status"
+                            aria-label={`AA ${getAAStatus(crWhite, 'AA') ? 'pass' : 'fail'}`}
                         >
                             AA
                         </span>
                         <span
-                            className={`px-2 py-0.5 rounded-full text-xs font-medium ${getAAStatus(crWhite, 'AAA')
-                                ? 'bg-green-600 text-white'
-                                : isDark
-                                    ? 'bg-zinc-800 text-zinc-400'
-                                    : 'bg-zinc-200 text-zinc-500'
-                                }`}
+                            className={`badge ${getAAStatus(crWhite, 'AAA') ? 'badge-success' : 'badge-neutral'}`}
+                            role="status"
+                            aria-label={`AAA ${getAAStatus(crWhite, 'AAA') ? 'pass' : 'fail'}`}
                         >
                             AAA
                         </span>
@@ -66,30 +57,23 @@ export default function AccessibilityPanel({ token, scale, crWhite, theme = 'dar
                 </div>
 
                 {/* On white */}
-                <div
-                    className={`flex items-center justify-between p-3 rounded-lg border ${isDark
-                        ? 'border-zinc-800 bg-white text-zinc-900'
-                        : 'border-zinc-300 bg-white text-zinc-900'
-                        }`}
-                >
-                    <div className="text-sm">
+                <div className="flex items-center justify-between p-3 rounded-lg border border-[var(--border-default)] bg-white text-zinc-900">
+                    <div className="text-sm font-medium">
                         On <strong>white</strong>
                     </div>
                     <div className="flex items-center gap-2">
-                        <span className="text-xs">{crOnWhite.toFixed(2)}:1</span>
+                        <span className="text-xs font-mono">{crOnWhite.toFixed(2)}:1</span>
                         <span
-                            className={`px-2 py-0.5 rounded-full text-xs font-medium ${getAAStatus(crOnWhite, 'AA')
-                                ? 'bg-green-600 text-white'
-                                : 'bg-red-600 text-white'
-                                }`}
+                            className={`badge ${getAAStatus(crOnWhite, 'AA') ? 'badge-success' : 'badge-error'}`}
+                            role="status"
+                            aria-label={`AA ${getAAStatus(crOnWhite, 'AA') ? 'pass' : 'fail'}`}
                         >
                             AA
                         </span>
                         <span
-                            className={`px-2 py-0.5 rounded-full text-xs font-medium ${getAAStatus(crOnWhite, 'AAA')
-                                ? 'bg-green-600 text-white'
-                                : 'bg-zinc-200 text-zinc-500'
-                                }`}
+                            className={`badge ${getAAStatus(crOnWhite, 'AAA') ? 'badge-success' : 'bg-zinc-200 text-zinc-600'}`}
+                            role="status"
+                            aria-label={`AAA ${getAAStatus(crOnWhite, 'AAA') ? 'pass' : 'fail'}`}
                         >
                             AAA
                         </span>
@@ -97,36 +81,31 @@ export default function AccessibilityPanel({ token, scale, crWhite, theme = 'dar
                 </div>
 
                 {/* On black */}
-                <div
-                    className="flex items-center justify-between p-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100"
-                >
-                    <div className="text-sm">
+                <div className="flex items-center justify-between p-3 rounded-lg border border-zinc-700 bg-zinc-950 text-zinc-100">
+                    <div className="text-sm font-medium">
                         On <strong>black</strong>
                     </div>
                     <div className="flex items-center gap-2">
-                        <span className="text-xs">{crOnBlack.toFixed(2)}:1</span>
+                        <span className="text-xs font-mono">{crOnBlack.toFixed(2)}:1</span>
                         <span
-                            className={`px-2 py-0.5 rounded-full text-xs font-medium ${getAAStatus(crOnBlack, 'AA')
-                                ? 'bg-green-600 text-white'
-                                : 'bg-red-600 text-white'
-                                }`}
+                            className={`badge ${getAAStatus(crOnBlack, 'AA') ? 'badge-success' : 'badge-error'}`}
+                            role="status"
+                            aria-label={`AA ${getAAStatus(crOnBlack, 'AA') ? 'pass' : 'fail'}`}
                         >
                             AA
                         </span>
                         <span
-                            className={`px-2 py-0.5 rounded-full text-xs font-medium ${getAAStatus(crOnBlack, 'AAA')
-                                ? 'bg-green-600 text-white'
-                                : 'bg-zinc-800 text-zinc-400'
-                                }`}
+                            className={`badge ${getAAStatus(crOnBlack, 'AAA') ? 'badge-success' : 'bg-zinc-800 text-zinc-400'}`}
+                            role="status"
+                            aria-label={`AAA ${getAAStatus(crOnBlack, 'AAA') ? 'pass' : 'fail'}`}
                         >
                             AAA
                         </span>
                     </div>
                 </div>
             </div>
-            <p className={`text-xs mt-3 ${isDark ? 'text-zinc-400' : 'text-zinc-600'
-                }`}>
-                Tip: use <span className="font-mono">var(--on-{token})</span> for legible text on your base color.
+            <p className="text-xs mt-3 text-[var(--text-secondary)]">
+                Tip: use <code className="font-mono bg-[var(--bg-tertiary)] px-1 py-0.5 rounded">var(--on-{token})</code> for legible text on your base color.
             </p>
         </div>
     );
