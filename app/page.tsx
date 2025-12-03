@@ -28,7 +28,7 @@ export default function Page() {
     document.documentElement.classList.toggle('light', theme === 'light');
   }, [theme]);
 
-  const baseHex = useMemo(() => parseColor(base) ?? "#FFFFFF", [base]);
+  const baseHex = useMemo(() => parseColor(base) ?? "#826EE7", [base]);
   const scale = useMemo(() => buildScale(baseHex), [baseHex]);
 
   const c500 = hexToRgb(scale["500"]);
@@ -47,8 +47,36 @@ export default function Page() {
       <div className="max-w-6xl mx-auto px-4 py-10">
         {/* Header */}
         <header className="mb-8 flex items-center justify-between">
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight uppercase">Colors 4 dev</h1>
-          <div className="flex items-center gap-3">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
+            COLOR 4 DEV
+          </h1>
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* GitHub Star Button */}
+            <a
+              href="https://github.com/hxst1/Colors4dev"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border transition-all bg-[var(--bg-secondary)] border-[var(--border-default)] hover:bg-[var(--bg-tertiary)] hover:border-[var(--border-strong)] group"
+              title="Star on GitHub"
+            >
+              <svg
+                className="w-4 h-4 text-[var(--text-secondary)] group-hover:text-amber-400 transition-colors"
+                fill="currentColor"
+                viewBox="0 0 16 16"
+                aria-hidden="true"
+              >
+                <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z" />
+              </svg>
+              <span className="text-xs font-medium text-[var(--text-primary)] hidden sm:inline">Star</span>
+              <svg
+                className="w-3.5 h-3.5 text-[var(--text-tertiary)]"
+                fill="currentColor"
+                viewBox="0 0 16 16"
+                aria-hidden="true"
+              >
+                <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z" />
+              </svg>
+            </a>
             <button
               onClick={() => setTheme(t => t === 'dark' ? 'light' : 'dark')}
               className="relative inline-flex items-center gap-2 px-3 py-2 rounded-lg border transition-all bg-[var(--bg-secondary)] border-[var(--border-default)] hover:bg-[var(--bg-tertiary)] hover:border-[var(--border-strong)]"
@@ -75,7 +103,7 @@ export default function Page() {
               href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/Understanding_WCAG"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs underline underline-offset-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+              className="text-xs underline underline-offset-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors hidden sm:inline"
             >
               WCAG
             </a>
@@ -115,8 +143,45 @@ export default function Page() {
         </section>
 
         {/* Footer */}
-        <footer className="text-xs mt-10 text-[var(--text-tertiary)]">
-          Crafted with ❤️ by hxst1 — built for developers. Copy the snippets into your project and ship.
+        <footer className="mt-10 pt-6 border-t border-[var(--border-subtle)]">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p className="text-xs text-[var(--text-tertiary)]">
+              Crafted with ❤️ by{" "}
+              <a
+                href="https://github.com/hxst1"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+              >
+                hxst1
+              </a>
+              {" "}— built for developers
+            </p>
+            <div className="flex items-center gap-4">
+              <a
+                href="https://github.com/hxst1/Colors4dev"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+              >
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z" />
+                </svg>
+                View on GitHub
+              </a>
+              <a
+                href="https://github.com/hxst1/Colors4dev/stargazers"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-xs text-[var(--text-secondary)] hover:text-amber-400 transition-colors"
+              >
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z" />
+                </svg>
+                Star this project
+              </a>
+            </div>
+          </div>
         </footer>
       </div>
     </div>
